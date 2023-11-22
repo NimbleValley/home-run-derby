@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Run Derby</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="home-screen-container" class="screen-container">
+        <h1>Home Run Derby</h1>
+        <div id="home-button-container">
+            <button class="home-button" onclick="toPlayScreen()">Play</button>
+            <button class="home-button">About</button>
+        </div>
+    </div>
+    <div id="play-screen-container" class="screen-container">
+        <h1>Options</h1>
+        <div id="select-container">
+            <div>
+                <label for="team-select">Theme:</label>
+                <select name="team-select" id="team-select"></select>
+            </div>
+            <div>
+                <label for="stadium-select">Stadium:</label>
+                <select name="stadium-select" id="stadium-select">
+                    <option value="BOS">Boston</option>
+                </select>
+            </div>
+            <div>
+                <label for="difficulty-select">Difficulty:</label>
+                <select name="difficulty-select" id="difficulty-select">
+                    <option value="normal">Normal</option>
+                </select>
+            </div>
+        </div>
+        <div id="game-mode-container">
+            <button class="game-mode-button" onclick="window.open('offline.html', '_self')">Practice Derby
+            <p>10 outs, hit as many HRs as possible</p>
+            </button>
+            <button class="game-mode-button">(Coming soon)</button>
+        </div>
+    </div>
+    <div id="background-container">
+        <img src="textures/background_BOS.png" alt="background image">
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="scripts/index.js"></script>
+
+</html>

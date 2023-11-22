@@ -1,0 +1,297 @@
+@font-face {
+    font-family: hardball;
+    src: url(fonts/hardball.ttf);
+}
+
+html,
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+}
+
+:root {
+    --secondary-color: "red"
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    cursor: cell;
+    cursor: url(crosshair.cur), pointer;
+}
+
+#background-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    position: fixed;
+    background-size: cover;
+    z-index: -5;
+    top: 0;
+}
+
+@media (min-aspect-ratio: 1920/1080) {
+    img {
+        width: 100vw;
+        background-size: cover;
+    }
+}
+
+@media (max-aspect-ratio: 1920/1080) {
+    img {
+        height: 100vh;
+        background-size: cover;
+    }
+}
+
+#score-panel {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.678);
+    width: 25vh;
+    height: 20vh;
+    right: 2.5vh;
+    bottom: 2.5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#hit-stat-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.screen-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+}
+
+/* Home Screen */
+
+#home-button-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-button {
+    font-size: 7vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.267);
+    border: 0.5vh solid rgba(255, 255, 255, 0.705);
+    border-radius: 0.5vh;
+    padding: 1.5vh;
+    transition: background-color 0.25s;
+    width: 30vh;
+    text-align: center;
+}
+
+.home-button:hover {
+    background-color: black;
+}
+
+/* Game Options */
+
+#game-mode-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.game-mode-button {
+    font-size: 7vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.267);
+    border: 0.5vh solid rgba(255, 255, 255, 0.705);
+    border-radius: 0.5vh;
+    padding: 1.5vh;
+    transition: background-color 0.25s;
+    width: 40vh;
+    height: 30vh;
+    text-align: center;
+}
+
+.game-mode-button:hover {
+    background-color: black;
+}
+
+#select-container {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+select {
+    font-size: 4vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.692);
+    border-radius: 0.25vh;
+    border: 0.5vh solid rgba(255, 255, 255, 0.808);
+    text-align: center;
+    transition: color 0.25s, background-color 0.25s;
+}
+
+select:hover {
+    cursor: pointer;
+    background-color: rgba(148, 148, 148, 0.808);
+    color: black;
+}
+
+label {
+    font-size: 4vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.692);
+    border: 0.5vh solid rgba(0, 0, 0, 0.692);
+}
+
+p {
+    font-size: 3vh;
+}
+
+h1 {
+    font-size: 10vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.384);
+    padding: 1vh 5vh 1vh 5vh;
+    border-radius: 0.75vh;
+    border: 0.5vh solid rgba(255, 255, 255, 0.534);
+    text-align: center;
+}
+
+h2 {
+    font-size: 7.5vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+}
+
+h3 {
+    font-size: 3.75vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+}
+
+h4 {
+    font-size: 2.5vh;
+    color: white;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+}
+
+h5 {
+    font-size: 6vh;
+    text-align: center;
+    color: var(--secondary-color);
+}
+
+#homerun-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: navy;
+    z-index: 10;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    animation: border-pulse 1s infinite;
+}
+
+#loading-panel {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 10;
+    color: wheat;
+    font-size: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#loading-panel div {
+    animation: loading-sway 2s infinite;
+    user-select: none;
+}
+
+#firework-canvas {
+    position: fixed;
+    bottom: 0vh;
+    height: 100vh;
+    width: 100vw;
+    background: transparent;
+    background-color: transparent;
+    opacity: 0.5;
+    z-index: 15;
+    transition: opacity 0.5s;
+}
+
+#click-to-begin {
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.466);
+}
+
+@keyframes loading-sway {
+    0% {
+        margin-left: 0vw;
+    }
+
+    25% {
+        margin-left: 5vw;
+    }
+
+    75% {
+        margin-left: -5vw;
+    }
+
+    100% {
+        margin-left: 0vw;
+    }
+}
+
+@keyframes border-pulse {
+    0% {
+        border: solid 1.25vh var(--secondary-color)
+    }
+
+    50% {
+        border: solid 0.25vh var(--secondary-color)
+    }
+
+    100% {
+        border: solid 1.25vh var(--secondary-color)
+    }
+}

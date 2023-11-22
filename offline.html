@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Run Derby</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="click-to-begin" class="screen-container">
+        <h2>Click anywhere to start game</h2>
+    </div>
+    <canvas id="firework-canvas">
+    </canvas>
+    <div id="game-over-container" class="screen-container" style="z-index: 100;">
+        <h1>Game Over</h1>
+        <h2 id="homerun-total-text">Home Runs: </h2>
+        <div id="home-button-container">
+            <button class="home-button" onclick="window.open('offline.html', '_self')">Again</button>
+            <button class="home-button" onclick="window.open('index.html', '_self')">Home</button>
+        </div>
+    </div>
+
+    <div id="loading-panel">
+        <div>Loading...</div>
+    </div>
+
+    <canvas id="bg"></canvas>
+    <div id="score-panel">
+        <h3 id="out-count">Outs: 0</h3>
+        <h3 id="homerun-count">HR: 0</h3>
+        <div id="hit-stat-container">
+            <h4 id="exit-velocity"></h4>
+            <h4 id="launch-angle"></h4>
+        </div>
+        <div id="homerun-container">
+            <h5 id="homerun-text">Home Run</h5>
+        </div>
+    </div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="scripts/ui.js"></script>
+<script type="module" src="scripts/fireworks.js"></script>
+<script type="module" src="scripts/offline.js"></script>
+<script src="scripts/ammo.js"></script>
+
+</html>
