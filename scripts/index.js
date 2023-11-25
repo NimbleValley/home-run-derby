@@ -3,9 +3,12 @@ const tl = new TimelineMax();
 const homeScreenContainer = document.getElementById("home-screen-container");
 const playScreenContainer = document.getElementById("play-screen-container");
 playScreenContainer.style.display = "none";
+const aboutScreenContainer = document.getElementById("about-screen-container");
+aboutScreenContainer.style.display = "none";
 
 const teamSelect = document.getElementById("team-select");
 const stadiumSelect = document.getElementById("stadium-select");
+const difficultySelect = document.getElementById("difficulty-select");
 
 async function toPlayScreen() {
     tl.fromTo(homeScreenContainer, 0.5, { scale: 1, opacity: 1 }, { scale: 0.5, opacity: 0 });
@@ -13,6 +16,22 @@ async function toPlayScreen() {
     await sleep(500);
     homeScreenContainer.style.display = "none";
     playScreenContainer.style.display = "flex";
+}
+
+async function toHomeScreen() {
+    tl.fromTo(aboutScreenContainer, 0.5, { scale: 1, opacity: 1 }, { scale: 0.5, opacity: 0 });
+    tl.fromTo(homeScreenContainer, 0.5, { scale: 0, opacity: 0.5, top: "50vh"}, { scale: 1, opacity: 1, top: 0});
+    await sleep(500);
+    aboutScreenContainer.style.display = "none";
+    homeScreenContainer.style.display = "flex";
+}
+
+async function toAboutScreen() {
+    tl.fromTo(homeScreenContainer, 0.5, { scale: 1, opacity: 1 }, { scale: 0.5, opacity: 0 });
+    tl.fromTo(aboutScreenContainer, 0.5, { scale: 0, opacity: 0.5, top: "50vh"}, { scale: 1, opacity: 1, top: 0});
+    await sleep(500);
+    homeScreenContainer.style.display = "none";
+    aboutScreenContainer.style.display = "flex";
 }
 
 const sleep = (milliseconds) => {
@@ -71,3 +90,15 @@ teamSelect.addEventListener('change', function() {
 stadiumSelect.addEventListener('change', function() {
     localStorage.setItem("stadium", stadiumSelect.value);
 });
+
+difficultySelect.addEventListener('change', function() {
+    localStorage.setItem("difficulty", difficultySelect.value);
+});
+
+if(localStorage.getItem("stadium") != null && localStorage.getItem("stadium") != "") {
+    stadiumSelect.value = localStorage.getItem("stadium");
+}
+
+if(localStorage.getItem("difficulty") != null && localStorage.getItem("difficulty") != "") {
+    difficultySelect.value = localStorage.getItem("difficulty");
+}

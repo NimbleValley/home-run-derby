@@ -33,6 +33,7 @@ img {
     background-size: cover;
     z-index: -5;
     top: 0;
+    user-select: none;
 }
 
 @media (min-aspect-ratio: 1920/1080) {
@@ -102,6 +103,21 @@ img {
 
 .home-button:hover {
     background-color: black;
+}
+
+/* About Screen */
+#about-text {
+    background-color: rgba(0, 0, 0, 0.699);
+    color:  white;
+    font-size: 3vh;
+    padding: 1vh 2vh 1vh 2vh;
+    max-width: 80vw;
+    max-height: 70vh;
+    text-align: center;
+}
+
+a {
+    color: rgb(255, 205, 139);
 }
 
 /* Game Options */
@@ -262,6 +278,43 @@ h5 {
 #click-to-begin {
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.466);
+}
+
+/* Online Lobby Styles */
+
+player-lobby-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-element {
+    display: flex;
+    justify-content: space-around;
+    width: 33vw;
+    font-weight: lighter;
+    margin: 1vh;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.575);
+    padding: 1vh 5vh 1vh 5vh;
+    border-radius: 0.75vh;
+    border: 0.5vh solid rgba(255, 255, 255, 0.534);
+    text-align: center;
+    align-items: center;
+}
+
+.player-lobby-name {
+    color: white;
+    font-size: 5vh;
+    margin-right: 4vw;
+
+}
+
+.player-lobby-text {
+    color: white;
+    font-size: 3.75vh;
+    background-color: rgba(24, 180, 32, 0.384);
+    border-radius: 0.75vh;
+    padding: 1vh;
 }
 
 @keyframes loading-sway {

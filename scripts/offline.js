@@ -13,7 +13,27 @@ const loader = new GLTFLoader();
 
 const RESOLUTION_SCALE = 1;
 
-const music = new Audio("audio/Punch Deck - Fluid Dynamics MASTER.wav");
+var difficulty = parseInt(localStorage.getItem("difficulty"));
+if (difficulty == null || String(difficulty) == "") {
+    difficulty = 1;
+}
+console.warn(`Difficulty: ${difficulty}`);
+
+/* MUSIC */
+var musicNumber = parseInt(localStorage.getItem("music"));
+if (musicNumber == null || isNaN(musicNumber)) {
+    musicNumber = -1;
+}
+musicNumber++;
+localStorage.setItem("music", musicNumber);
+var music;
+if (musicNumber % 2 == 0) {
+    music = new Audio("audio/Punch Deck - Fluid Dynamics MASTER.wav");
+} else if (musicNumber % 2 == 1) {
+    music = new Audio("audio/anttisinstrumentals+bandinatube.mp3");
+} else {
+    //music = new Audio("audio/Punch Deck - Fluid Dynamics MASTER.wav");
+}
 clickToBegin.addEventListener('click', startGame);
 
 var tempTransform;
@@ -47,7 +67,26 @@ var bounced = false;
 var homerun = false;
 var PAUSE = false;
 
-const hitWindow = 4;
+var hitWindow = 4;
+switch (difficulty) {
+    case 0:
+        hitWindow = 5.25;
+        break;
+    case 1:
+        hitWindow = 4;
+        break;
+    case 2:
+        hitWindow = 3.5;
+        break;
+    case 3:
+        hitWindow = 2.7;
+        break;
+    case 4:
+        hitWindow = 2;
+        break;
+    default:
+        break;
+}
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -63,7 +102,7 @@ renderer.toneMappingExposure = 1;
 
 var stadium;
 var stadiumAbbr = "BOS";
-if (!localStorage.getItem("stadium") == null && !localStorage.getItem("stadium") == "") {
+if (localStorage.getItem("stadium") != null && localStorage.getItem("stadium") != "") {
     stadiumAbbr = localStorage.getItem("stadium");
 }
 localStorage.setItem("stadium", stadiumAbbr);
@@ -350,7 +389,20 @@ window.addEventListener('mousedown', function (event) {
         pitching = false;
 
         var spray = (sprayRatio * 50) * Math.PI / 180;
-        var exitVelocity = (112.5 - (Math.abs(xRatio) * 150) - (Math.abs(yRatio) * 150)) * 5280 / 3600;
+
+        var exitVelocity;
+        if (difficulty <= 1) {
+            exitVelocity = (112.5 - (Math.abs(xRatio) * 150) - (Math.abs(yRatio) * 150)) * 5280 / 3600;
+        } else if (difficulty == 2) {
+            exitVelocity = (112.5 - Math.pow(Math.sqrt(Math.abs(xRatio) * 140), 3) - Math.pow(Math.sqrt(Math.abs(yRatio) * 80), 3)) * 5280 / 3600;
+        } else if (difficulty == 3) {
+            exitVelocity = (112.5 - Math.pow((Math.abs(xRatio) * 110), 2) - Math.pow((Math.abs(yRatio) * 100), 2)) * 5280 / 3600;
+        } else {
+            exitVelocity = (112.5 - Math.pow((Math.abs(xRatio) * 130), 2) - Math.pow((Math.abs(yRatio) * 100), 2)) * 5280 / 3600;
+        }
+
+        exitVelocity = clamp(exitVelocity, -80 * 5280 / 3600, 115 * 5280 / 3600);
+
         var launchAngle = (25 + (yRatio * 120)) * Math.PI / 180;
         var exitVelocityHorizontal = Math.cos(launchAngle) * exitVelocity;
         var exitVelocityVertical = Math.sin(launchAngle) * exitVelocity;
@@ -408,10 +460,27 @@ function pitch() {
     pitching = true;
 
     ballRigidBodies[ballRigidBodies.length - 1].setActivationState(1);
-
-    ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2, (Math.random() + 0.5) * 1.5, ((Math.random()) * 12) + 37));
+    if (difficulty == 0) {
+        ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 1, (Math.random() + 0.5) * 2, ((Math.random()) * 4) + 25));
+    } else if (difficulty == 1 || difficulty == 2) {
+        ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2, (Math.random() + 0.5) * 1.5, ((Math.random()) * 12) + 37));
+    } else if (difficulty == 3) {
+        ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2.25, (Math.random() + 0.5) * 1.75, ((Math.random()) * 10) + 42));
+    } else {
+        ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2.25, (Math.random() + 0.5) * 1.25, ((Math.random()) * 10) + 46));
+    }
 
     pitching = true;
+}
+
+function clamp(n, min, max) {
+    if (n > max) {
+        return max;
+    } else if (n < min) {
+        return min;
+    } else {
+        return n;
+    }
 }
 
 //HDRI
@@ -534,11 +603,14 @@ function updateBall(delta) {
             threeObject.quaternion.set(quat.x(), quat.y(), quat.z(), quat.w());
         }
 
-        if (hit) {
-            let hitBall = balls[balls.length - 1];
+    }
+
+    if (hit) {
+        let hitBall = balls[balls.length - 1];
+        if (!bounced) {
             camera.position.set(hitBall.position.x / 1.5, hitBall.position.y * 1.15 + 5, hitBall.position.z + 15);
-            camera.lookAt(hitBall.position);
         }
+        camera.lookAt(hitBall.position);
     }
 
     if (balls.length > 0 && balls[balls.length - 1].position.z * -1 < -5 && !hit) {
@@ -550,6 +622,10 @@ function updateBall(delta) {
             bounced = true;
             updateOutCount();
         }
+    }
+
+    if (hit && balls.length > 0 && balls[balls.length - 1].position.y < -2) {
+        bounced = true;
     }
 
     if (balls.length > 0 && hit) {

@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Mode (Testing)</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    This is still in testing, not yet available.    
+    This is still in testing, issues may occur.
+    <div id="player-lobby-container">
+    </div>
+    <div id="background-container">
+        <img src="textures/background_BOS.png" alt="background image">
+    </div>
 </body>
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
-<script type="module">
-    import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
-  </script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyByr4BtqWUOFt6EcEQYyRASdGdwvOw_RlA",
+        authDomain: "homerun-derby.firebaseapp.com",
+        databaseURL: "https://homerun-derby-default-rtdb.firebaseio.com",
+        projectId: "homerun-derby",
+        storageBucket: "homerun-derby.appspot.com",
+        messagingSenderId: "1051579372654",
+        appId: "1:1051579372654:web:c4abd56c9f077fe926827f",
+        measurementId: "G-JBLCP4106L"
+    };
+    firebase.initializeApp(firebaseConfig);
+</script>
 <script src="scripts/online.js" type="module"></script>
+
 </html>
