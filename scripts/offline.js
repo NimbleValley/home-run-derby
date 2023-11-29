@@ -98,6 +98,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth * RESOLUTION_SCALE, window.innerHeight * RESOLUTION_SCALE);
 renderer.toneMapping = THREE.CineonToneMapping;
+//renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 
 var stadium;
@@ -352,7 +353,7 @@ async function createBall() {
 
     console.log("Ball created");
 
-    for (let i = 0; i < ballRigidBodies.length; i++) {
+    for (let i = 0; i < ballRigidBodies.length-2; i++) {
         ballRigidBodies[i].setActivationState(0);
     }
 
