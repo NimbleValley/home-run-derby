@@ -68,8 +68,26 @@ img {
     justify-content: space-around;
 }
 
+#distance-container {
+    background-color: rgba(0, 0, 0, 0.678);
+    top: 0;
+    position: absolute;
+    border-top: 1vh solid var(--secondary-color);
+    border-left: 1vh solid var(--secondary-color);
+    border-right: 1vh solid var(--secondary-color);
+    opacity: 0;
+}
+
+h6 {
+    font-size: 4vh;
+    margin: 0;
+    color: white;
+    padding: 0.5vh 1.75vh 0.75vh 1.75vh;
+    text-align: center;
+}
+
 .screen-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -118,6 +136,14 @@ img {
 
 a {
     color: rgb(255, 205, 139);
+    text-decoration: underline;
+    transition: background-color 0.25s, color 0.25s;
+}
+
+a:hover {
+    cursor: pointer;
+    background-color: rgb(255, 205, 139);
+    color: black;
 }
 
 /* Game Options */

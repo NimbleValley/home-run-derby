@@ -18,7 +18,7 @@
     </div>
     <div id="about-screen-container" class="screen-container">
         <h1>About This Project</h1>
-        <div id="about-text">Hello! Welcome to this fun and simple game.<br><br>This game is a simple home run derby. Choose between two stadiums and five difficulties. Currently, it only has an offline mode, but an online version is in creation, and may work soon.<br><br>Physics and 3d graphics on the web are very difficult to run well and performantly, so issues may occur, or it may be slow. I've had the best performace on chrome.<br><br>Thank you to mlb for the stadium files, as well as Antti Luode & <a href="https://www.youtube.com/channel/UC3M9CX5HWSw25k5QL3FkDEA">Punch Deck for the incredible CC music.</a> Additionally, I used Three.js for rendering, Ammo.js for physics, and GSAP for some animations.<br><br>Thank you for playing. <a href="https://github.com/NimbleValley">Check out this and more projects on Github.</a></div>
+        <div id="about-text">Hello! Welcome to this fun and simple game.<br><br>This game is a simple home run derby. Choose between four stadiums and five difficulties. Currently, it only has an offline mode, but an online version is in creation, and may work soon.<br><br>Physics and 3d graphics on the web are very difficult to run well and performantly, so issues may occur, or it may be slow. I've had the best performace on chrome.<br><br>Thank you to mlb for the stadium files, as well as Antti Luode & <a href="https://www.youtube.com/channel/UC3M9CX5HWSw25k5QL3FkDEA">Punch Deck for the CC music.</a> Additionally, I used Three.js for rendering, Ammo.js for physics, and GSAP for some animations.<br><br>Thank you for playing. <a onclick="window.open('https://github.com/NimbleValley', '_blank')">Check out this and more projects on Github.</a></div>
         <div id="about-button-container">
             <button class="home-button" onclick="toHomeScreen()">Back</button>
         </div>
@@ -34,6 +34,7 @@
                 <label for="stadium-select">Stadium:</label>
                 <select name="stadium-select" id="stadium-select">
                     <option value="BOS">Boston</option>
+                    <option value="COL">Colorado</option>
                     <option value="MIN">Minnesota</option>
                     <option value="SF">San Francisco</option>
                 </select>
@@ -46,6 +47,14 @@
                     <option value="2">Veteran</option>
                     <option value="3">Hall of Fame</option>
                     <option value="4">Legend</option>
+                </select>
+            </div>
+            <div>
+                <label for="hand-select">Hand:</label>
+                <select name="hand-select" id="hand-select">
+                    <option value="1">Right</option>
+                    <option value="-1">Left</option>
+                    <option value="-50">Special</option>
                 </select>
             </div>
         </div>

@@ -6,7 +6,7 @@ import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders
 // Constants
 const sqrt = Math.sqrt(2);
 const SCALE = 19.25 / 90;
-const GRAVITY = 32 * SCALE;
+const GRAVITY = 32.2 * SCALE;
 const orbit = false;
 const material = new THREE.MeshBasicMaterial({ color: 0xFF6347, wireframe: false });
 const loader = new GLTFLoader();
@@ -18,6 +18,12 @@ if (difficulty == null || String(difficulty) == "") {
     difficulty = 1;
 }
 console.warn(`Difficulty: ${difficulty}`);
+
+var hand = parseInt(localStorage.getItem("hand"));
+if (hand == null || String(hand) == "") {
+    hand = 1;
+}
+console.warn(`Hand: ${hand}`);
 
 /* MUSIC */
 var musicNumber = parseInt(localStorage.getItem("music"));
@@ -44,6 +50,13 @@ var ballRigidBodies = [];
 
 var counter = 0;
 
+var stadium;
+var stadiumAbbr = "BOS";
+if (localStorage.getItem("stadium") != null && localStorage.getItem("stadium") != "") {
+    stadiumAbbr = localStorage.getItem("stadium");
+}
+localStorage.setItem("stadium", stadiumAbbr);
+
 // Scene
 const scene = new THREE.Scene();
 
@@ -56,8 +69,12 @@ camera.position.y = 1.5;
 camera.position.z = 2.5;
 
 // Sun
-const light = new THREE.AmbientLight(0xffffff, 2);
-light.position.y = 10;
+var light = new THREE.AmbientLight(0xffffff, 2);
+if(stadiumAbbr == "COL") {
+    //light = new THREE.AmbientLight(0xffffff, 20);
+    //light.rotation.x = -45;
+}
+light.position.y = 1;
 scene.add(light);
 
 // Current event
@@ -66,6 +83,9 @@ var hit = false;
 var bounced = false;
 var homerun = false;
 var PAUSE = false;
+var sprayDegrees;
+var hitDistance;
+var longestHit = 0;
 
 var hitWindow = 4;
 switch (difficulty) {
@@ -100,13 +120,6 @@ renderer.setSize(window.innerWidth * RESOLUTION_SCALE, window.innerHeight * RESO
 renderer.toneMapping = THREE.CineonToneMapping;
 //renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
-
-var stadium;
-var stadiumAbbr = "BOS";
-if (localStorage.getItem("stadium") != null && localStorage.getItem("stadium") != "") {
-    stadiumAbbr = localStorage.getItem("stadium");
-}
-localStorage.setItem("stadium", stadiumAbbr);
 
 Ammo().then(start)
 
@@ -389,17 +402,23 @@ window.addEventListener('mousedown', function (event) {
         hit = true;
         pitching = false;
 
-        var spray = (sprayRatio * 50) * Math.PI / 180;
+        sprayDegrees = (sprayRatio * 50);
+        if(hand == -50) {
+            sprayDegrees = Math.random() * 5000;
+        } else {
+            sprayDegrees *= hand;
+        }
+        var spray = sprayDegrees * Math.PI / 180;
 
         var exitVelocity;
         if (difficulty <= 1) {
-            exitVelocity = (112.5 - (Math.abs(xRatio) * 150) - (Math.abs(yRatio) * 150)) * 5280 / 3600;
+            exitVelocity = (113 - (Math.abs(xRatio) * 150) - (Math.abs(yRatio) * 150)) * 5280 / 3600;
         } else if (difficulty == 2) {
-            exitVelocity = (112.5 - Math.pow(Math.sqrt(Math.abs(xRatio) * 140), 3) - Math.pow(Math.sqrt(Math.abs(yRatio) * 80), 3)) * 5280 / 3600;
+            exitVelocity = (113 - Math.pow(Math.sqrt(Math.abs(xRatio) * 140), 3) - Math.pow(Math.sqrt(Math.abs(yRatio) * 80), 3)) * 5280 / 3600;
         } else if (difficulty == 3) {
-            exitVelocity = (112.5 - Math.pow((Math.abs(xRatio) * 110), 2) - Math.pow((Math.abs(yRatio) * 100), 2)) * 5280 / 3600;
+            exitVelocity = (113 - Math.pow((Math.abs(xRatio) * 110), 2) - Math.pow((Math.abs(yRatio) * 100), 2)) * 5280 / 3600;
         } else {
-            exitVelocity = (112.5 - Math.pow((Math.abs(xRatio) * 130), 2) - Math.pow((Math.abs(yRatio) * 100), 2)) * 5280 / 3600;
+            exitVelocity = (113 - Math.pow((Math.abs(xRatio) * 130), 2) - Math.pow((Math.abs(yRatio) * 100), 2)) * 5280 / 3600;
         }
 
         exitVelocity = clamp(exitVelocity, -80 * 5280 / 3600, 115 * 5280 / 3600);
@@ -413,6 +432,11 @@ window.addEventListener('mousedown', function (event) {
         ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3(Math.sin(spray) * exitVelocityHorizontal * SCALE, exitVelocityVertical * SCALE, Math.cos(spray) * exitVelocityHorizontal * -1 * SCALE));
 
         updateHitMetrics(Math.round(exitVelocity * 10 / 5280 * 3600) / 10, Math.round((25 + (yRatio * 120)) * 10) / 10);
+        
+        exitVelocity *= 0.99;
+        hitDistance = (exitVelocity * Math.cos(launchAngle)) * (((exitVelocity * Math.sin(launchAngle)) + Math.sqrt(Math.pow(exitVelocity * Math.sin(launchAngle), 2) + (2*45.2*3))))/45.2;
+        hitDistance = Math.round(hitDistance * 10)/10;
+        console.warn("Distance: " + hitDistance);
     }
 });
 
@@ -438,6 +462,7 @@ async function gameOver() {
     tl.fromTo(gameOverContainer, 1, { top: "-50vh", opacity: 0 }, { top: 0, opacity: 1 }, "-=1");
 
     homerunTotalText.innerText = `Home Runs: ${hrCount}`;
+    longestHitText.innerText = `Longest Hit: ${longestHit}'`;
 }
 
 // Set ball speed
@@ -648,6 +673,10 @@ function updateBall(delta) {
         camera.rotation.x = 0;
         camera.rotation.y = 0;
         camera.rotation.z = 0;
+
+        if(hitDistance > longestHit) {
+            longestHit = hitDistance;
+        }
     }
 }
 
@@ -693,6 +722,7 @@ function detectCollision() {
                         console.log("Homerun");
                         hrCount++;
                         updateHomerunCount();
+                        setDistance(hitDistance);
                     }
                 }
             }

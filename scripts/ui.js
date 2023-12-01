@@ -1,4 +1,5 @@
 var tl = new TimelineMax();
+var distanceTL = new TimelineMax();
 
 const loadingPanel = document.getElementById("loading-panel");
 
@@ -10,6 +11,9 @@ const launchAngleText = document.getElementById("launch-angle");
 const homerunContainer = document.getElementById("homerun-container");
 const homerunText = document.getElementById("homerun-text");
 
+const distanceContainer = document.getElementById("distance-container");
+const distanceText = document.getElementById("distance-text")
+
 const root = document.querySelector(':root');
 
 const homerunTotalText = document.getElementById("homerun-total-text");
@@ -17,6 +21,8 @@ const gameOverContainer = document.getElementById("game-over-container");
 gameOverContainer.style.display = "none";
 const clickToBegin = document.getElementById("click-to-begin");
 clickToBegin.style.display = "none";
+
+const longestHitText = document.getElementById("longest-hit-text");
 
 var outCount = 0;
 var hrCount = 0;
@@ -138,4 +144,11 @@ async function updateHitMetrics(exit, angle) {
 
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+async function setDistance(distance) {
+    distanceText.innerText = `${distance}'`;
+    distanceTL.fromTo(distanceContainer, 0.5, {top: 0, opacity: 0}, {top: "-6.75vh", opacity: 1});
+    await sleep(3000);
+    distanceTL.fromTo(distanceContainer, 0.5, {top: "-6.75vh", opacity: 1}, {top: 0, opacity: 0});
 }

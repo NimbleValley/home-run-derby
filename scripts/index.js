@@ -2,13 +2,13 @@ const tl = new TimelineMax();
 
 const homeScreenContainer = document.getElementById("home-screen-container");
 const playScreenContainer = document.getElementById("play-screen-container");
-playScreenContainer.style.display = "none";
 const aboutScreenContainer = document.getElementById("about-screen-container");
-aboutScreenContainer.style.display = "none";
+homeScreenContainer.style.display = "flex";
 
 const teamSelect = document.getElementById("team-select");
 const stadiumSelect = document.getElementById("stadium-select");
 const difficultySelect = document.getElementById("difficulty-select");
+const handSelect = document.getElementById("hand-select");
 
 async function toPlayScreen() {
     tl.fromTo(homeScreenContainer, 0.5, { scale: 1, opacity: 1 }, { scale: 0.5, opacity: 0 });
@@ -102,3 +102,12 @@ if(localStorage.getItem("stadium") != null && localStorage.getItem("stadium") !=
 if(localStorage.getItem("difficulty") != null && localStorage.getItem("difficulty") != "") {
     difficultySelect.value = localStorage.getItem("difficulty");
 }
+
+if(localStorage.getItem("hand") != null && localStorage.getItem("hand") != "") {
+    handSelect.value = localStorage.getItem("hand");
+}
+localStorage.setItem("hand", handSelect.value);
+
+handSelect.addEventListener('change', function() {
+    localStorage.setItem("hand", handSelect.value);
+});
