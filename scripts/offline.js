@@ -489,7 +489,7 @@ function pitch() {
     if (difficulty == 0) {
         ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 1, (Math.random() + 0.5) * 2, ((Math.random()) * 4) + 25));
     } else if (difficulty == 1 || difficulty == 2) {
-        ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2, (Math.random() + 0.5) * 1.5, ((Math.random()) * 12) + 33.75));
+        ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2, (Math.random() + 0.65) * 1.5, ((Math.random()) * 12) + 33.75));
     } else if (difficulty == 3) {
         ballRigidBodies[ballRigidBodies.length - 1].setLinearVelocity(new Ammo.btVector3((Math.random() - 0.5) * 2.25, (Math.random() + 0.5) * 1.75, ((Math.random()) * 10) + 42));
     } else {
