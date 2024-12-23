@@ -101,6 +101,9 @@ if(localStorage.getItem("stadium") != null && localStorage.getItem("stadium") !=
 
 if(localStorage.getItem("difficulty") != null && localStorage.getItem("difficulty") != "") {
     difficultySelect.value = localStorage.getItem("difficulty");
+} else {
+    difficultySelect.value = 1;
+    localStorage.setItem("difficulty", 1);
 }
 
 if(localStorage.getItem("hand") != null && localStorage.getItem("hand") != "") {
